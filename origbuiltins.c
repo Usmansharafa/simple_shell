@@ -8,7 +8,6 @@ int shellby_help(char **args, char __attribute__((__unused__)) **beginning);
  * get_builtin - Matches a command with a corresponding
  *               shellby builtin function.
  * @command: The command to match.
- *
  * Return: A function pointer to the corresponding builtin.
  */
 int (*get_builtin(char *command))(char **args, char **beginning)
@@ -30,7 +29,7 @@ int (*get_builtin(char *command))(char **args, char **beginning)
 		if (_strcmp(funcs[i].name, command) == 0)
 			break;
 	}
-	return (funcs[i].f);
+	return (funcs[i].func);
 }
 
 /**
@@ -72,7 +71,7 @@ int shellby_exit(char **args, char **beginning)
 	if (num > max - 1)
 		return (create_error(--args, 2));
 	args -= 1;
-	free_args(args, front);
+	free_args(args, beginning);
 	free_env();
 	free_alias_list(aliases);
 	exit(num);
@@ -163,7 +162,6 @@ int shellby_cd(char **args, char __attribute__((__unused__)) **beginning)
  * shellby_help - Displays information about shellby builtin commands.
  * @args: An array of arguments.
  * @beginning: A pointer to the beginning of args.
- *
  * Return: If an error occurs - -1.
  *         Otherwise - 0.
  */
